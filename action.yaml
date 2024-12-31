@@ -1,0 +1,33 @@
+name: http-client-action
+author: enismustafaj
+description: http client action
+inputs:
+  authentication: 
+    description: this property decides wherethe the endpoint being called requires authentication
+    required: true
+    default: false
+  authentication-type:
+    description: authentication type if the "authentication" property is set
+    required: false
+  url:
+    description: the target url
+    required: true
+  token-url:
+    description: 
+  payload:
+    description: the payload for the request body
+    required: false
+  method:
+    description: http method type
+    required: true
+  client_id:
+    descrtiption: client id for client credentials flow
+    required: false
+  client_secret:
+    description: client secret for client credentials flow
+    required: false
+outputs:
+  request_result:
+    description: request output
+
+
