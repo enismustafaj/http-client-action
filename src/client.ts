@@ -1,4 +1,4 @@
-import { ClientAuthenticator } from "./client_authenticator"
+import { ClientAuthenticator } from "./client_authenticator";
 import { AuthHeader } from "./model/auth_header";
 import { RequestMetadata } from "./model/request_metadata";
 

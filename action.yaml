@@ -30,4 +30,8 @@ outputs:
   request_result:
     description: request output
 
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
 

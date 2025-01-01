@@ -1,5 +1,6 @@
-import core from "@actions/core"
 import { HttpClient } from "./client";
+
+const core = require("@actions/core")
 
 const authEnabled: boolean = new Boolean(core.getInput("authentication")).valueOf();
 const authType: string = core.getInput("authentication-type")
@@ -7,17 +8,17 @@ const url: string = core. getInput("url")
 const payload: Object = core.getInput("payload")
 const method: string = core.getInput("method")
 
-const client = HttpClient.getInstance(
-    {
-        payload,
-        auth: {
-            authEnabled,
-            authType
+const main = async () => {
+    const client = HttpClient.getInstance(
+        {
+            payload,
+            auth: {
+                authEnabled,
+                authType
+            }
         }
-    }
-);
-
-try {
+    );
+    
     let res: any;
 
     switch(method) {
@@ -31,7 +32,17 @@ try {
     }
 
     core.setOutput("request_result", res)
-} catch(error) {
-    core.setFailed(error)
+
 }
+
+main().then(
+    res => {
+        core.setOutput("request_result", res)
+    }
+).catch(
+    err => {
+        console.log(err)
+        core.setFailed("Action failed")
+    }
+);
 
