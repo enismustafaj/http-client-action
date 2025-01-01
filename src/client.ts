@@ -45,7 +45,7 @@ export class HttpClient {
 
         const headers: [string, string][] = [];
 
-        if (!authHeader) {
+        if (authHeader) {
             headers.push([authHeader!.name, authHeader!.val])
         }
 

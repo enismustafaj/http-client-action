@@ -2,13 +2,13 @@ import { HttpClient } from "./client";
 
 const core = require("@actions/core")
 
-const authEnabled: boolean = new Boolean(core.getInput("authentication")).valueOf();
+const authEnabled: boolean = JSON.parse(core.getInput("authentication"));
 const authType: string = core.getInput("authentication-type")
 const url: string = core. getInput("url")
 const payload: Object = core.getInput("payload")
 const method: string = core.getInput("method")
 
-const main = async () => {
+export const run = async () => {
     const client = HttpClient.getInstance(
         {
             payload,
@@ -32,13 +32,13 @@ const main = async () => {
             throw new Error("method not allowed")
     }
 
-    core.setOutput("request_result", res)
+    return res;
 
 }
 
-main().then(
+run().then(
     res => {
-        core.setOutput("request_result", res)
+        core.setOutput("request_result", JSON.stringify(res))
     }
 ).catch(
     err => {
