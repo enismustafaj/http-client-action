@@ -18,7 +18,7 @@ const main = async () => {
             }
         }
     );
-    
+
     let res: any;
 
     switch(method) {
@@ -27,6 +27,7 @@ const main = async () => {
             break;
         case "GET":
             res = await client.get(url)
+            break;      
         default:
             throw new Error("method not allowed")
     }
