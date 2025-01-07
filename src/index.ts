@@ -1,6 +1,6 @@
 import { HttpClient } from "./client";
 
-const core = require("@actions/core")
+import core from "@actions/core";
 
 const authEnabled: boolean = JSON.parse(core.getInput("authentication"));
 const authType: string = core.getInput("authentication-type")

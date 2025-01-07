@@ -25677,7 +25677,7 @@ class HttpClient {
     async get(url) {
         const authHeader = await this.clientAuthenticator.authenticateRequest(this.metadata.auth);
         const headers = [];
-        if (!authHeader) {
+        if (authHeader) {
             headers.push([authHeader.name, authHeader.val]);
         }
         const requestResult = await fetch(url, {
@@ -25717,6 +25717,55 @@ class ClientAuthenticator {
     }
 }
 exports.ClientAuthenticator = ClientAuthenticator;
+
+
+/***/ }),
+
+/***/ 4146:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = void 0;
+const client_1 = __nccwpck_require__(6487);
+const core_1 = __importDefault(__nccwpck_require__(8167));
+const authEnabled = JSON.parse(core_1.default.getInput("authentication"));
+const authType = core_1.default.getInput("authentication-type");
+const url = core_1.default.getInput("url");
+const payload = core_1.default.getInput("payload");
+const method = core_1.default.getInput("method");
+const run = async () => {
+    const client = client_1.HttpClient.getInstance({
+        payload,
+        auth: {
+            authEnabled,
+            authType
+        }
+    });
+    let res;
+    switch (method) {
+        case "POST":
+            res = await client.post(url);
+            break;
+        case "GET":
+            res = await client.get(url);
+            break;
+        default:
+            throw new Error("method not allowed");
+    }
+    return res;
+};
+exports.run = run;
+(0, exports.run)().then(res => {
+    core_1.default.setOutput("request_result", JSON.stringify(res));
+}).catch(err => {
+    console.log(err);
+    core_1.default.setFailed("Action failed");
+});
 
 
 /***/ }),
@@ -27624,50 +27673,13 @@ module.exports = parseParams
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-var exports = __webpack_exports__;
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const client_1 = __nccwpck_require__(6487);
-const core = __nccwpck_require__(8167);
-const authEnabled = new Boolean(core.getInput("authentication")).valueOf();
-const authType = core.getInput("authentication-type");
-const url = core.getInput("url");
-const payload = core.getInput("payload");
-const method = core.getInput("method");
-const main = async () => {
-    const client = client_1.HttpClient.getInstance({
-        payload,
-        auth: {
-            authEnabled,
-            authType
-        }
-    });
-    let res;
-    switch (method) {
-        case "POST":
-            res = await client.post(url);
-            break;
-        case "GET":
-            res = await client.get(url);
-        default:
-            throw new Error("method not allowed");
-    }
-    core.setOutput("request_result", res);
-};
-main().then(res => {
-    core.setOutput("request_result", res);
-}).catch(err => {
-    console.log(err);
-    core.setFailed("Action failed");
-});
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(4146);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
