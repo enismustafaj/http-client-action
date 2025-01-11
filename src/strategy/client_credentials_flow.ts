@@ -27,7 +27,7 @@ export class ClientCredentialsFlow extends AuthStrategy {
             body: requestBody.toString()
         })
 
-        const tokenJson = await tokesResult.json()
+        const tokenJson: any = await tokesResult.json()
 
         return {
             name: "Bearer",
